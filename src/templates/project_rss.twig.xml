@@ -12,7 +12,6 @@
             <link>{{ url('commit', { 'slug': commit.project.slug, 'sha': commit.sha }) }}</link>
             <pubdate>{{commit.date|date('j M Y H:i')}}</pubdate>
             <author>{{commit.author}}</author>
-            <description>Committed by  on </description>
         </item>
         {% endfor %}
 

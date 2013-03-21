@@ -4,6 +4,10 @@
 
 {% block title 'Project ' ~ project %}
 
+{% block rss %}
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ path('project_rss', {'slug': project.slug}) }}" />
+{% endblock %}
+
 {% block content %}
     <div id="back"><a href="{{ path('projects') }}">&laquo; Projects</a></div>
 
