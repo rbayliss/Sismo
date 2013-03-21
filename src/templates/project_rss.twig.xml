@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>{{project}}</title>
+        <link>{{ url('project', { 'slug': project.slug }) }}</link>
+        <description>Commit Feed</description>
+        {% for commit in commits %}
+
+        <item>
+            <title>{{commit.message}}</title>
+            <guid>{{commit.sha}}</guid>
+            <link>{{ url('commit', { 'slug': commit.project.slug, 'sha': commit.sha }) }}</link>
+            <pubdate>{{commit.date|date('j M Y H:i')}}</pubdate>
+            <author>{{commit.author}}</author>
+            <description>Committed by  on </description>
+        </item>
+        {% endfor %}
+
+    </channel>
+</rss>

@@ -33,6 +33,23 @@ $app->get('/{slug}', function($slug) use ($app) {
     ));
 })->bind('project');
 
+$app->get('/{slug}/rss.xml', function($slug) use ($app) {
+    if (!$app['sismo']->hasProject($slug)) {
+        throw new NotFoundHttpException(sprintf('Project "%s" not found.', $slug));
+    }
+
+    $project = $app['sismo']->getProject($slug);
+    $commits = $project->getCommits();
+
+    $content = $app['twig']->render('project_rss.twig.xml', array(
+        'project' => $project,
+        'commits' => $commits,
+    ));
+
+    return new Response($content, 200, array('content-type' => 'text/xml'));
+
+})->bind('project_rss');
+
 $app->get('/dashboard/cctray.xml', function() use ($app) {
     $content = $app['twig']->render('ccmonitor.twig.xml', array('projects' => $app['sismo']->getProjects()));
 
