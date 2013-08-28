@@ -96,8 +96,9 @@ class PdoStorage implements StorageInterface
      */
     public function initCommit(Project $project, $sha, $author, \DateTime $date, $message)
     {
-        $stmt = $this->db->prepare('SELECT COUNT(*) FROM `commit` WHERE slug = :slug');
+        $stmt = $this->db->prepare('SELECT COUNT(*) FROM `commit` WHERE slug = :slug AND sha = :sha');
         $stmt->bindValue(':slug', $project->getSlug(), \PDO::PARAM_STR);
+        $stmt->bindValue(':sha', $sha, \PDO::PARAM_STR);
 
         if (false === $stmt->execute()) {
             // @codeCoverageIgnoreStart
@@ -106,7 +107,7 @@ class PdoStorage implements StorageInterface
         }
 
         if ($stmt->fetchColumn(0)) {
-            $stmt = $this->db->prepare('UPDATE `commit` SET slug = :slug, sha = :sha, author = :author, date = :date, message = :message, status = :status, output = :output, build_date = :build_date WHERE slug = :slug');
+            $stmt = $this->db->prepare('UPDATE `commit` SET slug = :slug, sha = :sha, author = :author, date = :date, message = :message, status = :status, output = :output, build_date = :build_date WHERE slug = :slug AND sha = :sha');
         } else {
             $stmt = $this->db->prepare('INSERT INTO `commit` (slug, sha, author, date, message, status, output, build_date) VALUES (:slug, :sha, :author, :date, :message, :status, :output, :build_date)');
         }
