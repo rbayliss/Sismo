@@ -21,12 +21,12 @@ use Symfony\Component\Process\Process;
  */
 class Builder
 {
-    private $project;
-    private $baseBuildDir;
-    private $buildDir;
-    private $callback;
-    private $gitPath;
-    private $gitCmds;
+    protected $project;
+    protected $baseBuildDir;
+    protected $buildDir;
+    protected $callback;
+    protected $gitPath;
+    protected $gitCmds;
 
     public function __construct($buildDir, $gitPath, array $gitCmds)
     {
